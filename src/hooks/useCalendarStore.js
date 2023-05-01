@@ -33,7 +33,7 @@ export const useCalendarStore = () => {
 		// Properties
 		events,
 		activeEvent,
-		hasEventSelected: !!activeEvent,
+		hasEventSelected: !!activeEvent?._id,
 		
 		//Methods
 		setActiveEvent,
