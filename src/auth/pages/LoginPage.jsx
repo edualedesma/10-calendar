@@ -17,25 +17,30 @@ const registerFormFields = {
 
 export const LoginPage = () => {
 
-    const { startLogin, errorMessage } = useAuthStore();
+    const { startLogin, startRegister, errorMessage } = useAuthStore();
 
     const { loginEmail, loginPassword, onInputChange:onLoginInputChange } = useForm( loginFormFields );
     const { registerName, registerEmail, registerPassword, registerPassword2, onInputChange:onRegisterInputChange } = useForm( registerFormFields );
 
     const loginSubmit = ( event ) => {
         event.preventDefault();
-        // console.log({ loginEmail, loginPassword });
         startLogin({ email: loginEmail, password: loginPassword });
     }
 
     const registerSubmit = ( event ) => {
         event.preventDefault();
-        console.log({ registerName, registerEmail, registerPassword, registerPassword2 });
+
+        if (registerPassword !== registerPassword2) {
+            Swal.fire('Register error', 'Passwords are not equal', 'error');
+            return;
+        }
+
+        startRegister({ name: registerName, email: registerEmail, password: registerPassword });
     }
 
     useEffect(() => {
         if (errorMessage !== undefined) {
-            Swal.fire('Authentication error', errorMessage, 'error');
+            Swal.fire('Credential error', errorMessage, 'error');
         }
     }, [errorMessage])
     
